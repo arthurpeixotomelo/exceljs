@@ -1,4 +1,4 @@
-import {PassThrough} from 'readable-stream';
+import {PassThrough} from 'stream';
 import underDash from '../../../utils/under-dash.js';
 import CompyXform from './compy-xform.js';
 
