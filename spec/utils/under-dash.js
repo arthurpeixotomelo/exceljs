@@ -46,4 +46,4 @@ const _ = Object.assign(
   verquire('utils/under-dash')
 );
 
-module.exports = _;
+export default _;

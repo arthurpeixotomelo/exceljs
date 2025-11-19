@@ -1,4 +1,4 @@
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 
 describe('pull request  2244', () => {
   it('pull request 2244- Fix xlsx.writeFile() not catching error when error occurs', async () => {

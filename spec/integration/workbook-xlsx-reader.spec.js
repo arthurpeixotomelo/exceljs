@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const testutils = require('../utils/index');
 
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 
 const TEST_FILE_NAME = './spec/out/wb.test.xlsx';
 

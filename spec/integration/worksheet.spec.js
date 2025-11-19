@@ -3,8 +3,8 @@ const path = require('path');
 const {expect} = require('chai');
 const testutils = require('../utils/index');
 
-const ExcelJS = verquire('exceljs');
-const Range = verquire('doc/range');
+import ExcelJS from '../../excel.js';
+import Range from '../../lib/doc/range.js';
 
 describe('Worksheet', () => {
   describe('Values', () => {
