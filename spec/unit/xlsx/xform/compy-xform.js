@@ -1,4 +1,4 @@
-const BaseXform = verquire('xlsx/xform/base-xform');
+import BaseXform from '../../../../lib/xlsx/xform/base-xform.js';
 
 class CompyXform extends BaseXform {
   constructor(options) {
@@ -74,4 +74,4 @@ class CompyXform extends BaseXform {
   }
 }
 
-module.exports = CompyXform;
+export default CompyXform;
