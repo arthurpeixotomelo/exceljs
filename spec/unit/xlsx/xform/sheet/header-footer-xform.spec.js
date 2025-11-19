@@ -1,4 +1,4 @@
-const testXformHelper = require('../test-xform-helper');
+import testXformHelper from '../test-xform-helper.js';
 
 const HeaderFooterXform = verquire('xlsx/xform/sheet/header-footer-xform');
 

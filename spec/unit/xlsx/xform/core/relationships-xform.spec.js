@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const testXformHelper = require('../test-xform-helper');
+import testXformHelper from '../test-xform-helper.js';
 
 const RelationshipsXform = verquire('xlsx/xform/core/relationships-xform');
 

@@ -1,4 +1,4 @@
-const testXformHelper = require('../test-xform-helper');
+import testXformHelper from '../test-xform-helper.js';
 
 const SheetViewXform = verquire('xlsx/xform/sheet/sheet-view-xform');
 const ListXform = verquire('xlsx/xform/list-xform');

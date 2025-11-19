@@ -1,4 +1,4 @@
-import simpleWorkbookModel from '../data/simpleWorkbook.json';
+import simpleWorkbookModel from '../data/simpleWorkbook.json' with { type: 'json' };
 import testUtils from '../../utils/index.js';
 
 import Excel from '../../../lib/exceljs.nodejs.js';

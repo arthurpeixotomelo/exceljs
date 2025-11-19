@@ -1,4 +1,4 @@
-const testXformHelper = require('../test-xform-helper');
+import testXformHelper from '../test-xform-helper.js';
 
 const PageBreaksXform = verquire('xlsx/xform/sheet/page-breaks-xform');
 
