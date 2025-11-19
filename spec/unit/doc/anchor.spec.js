@@ -1,6 +1,6 @@
-const {createSheetMock} = require('../../utils/index');
+import {createSheetMock} from '../../utils/index';
 
-const Anchor = verquire('doc/anchor');
+import Anchor from '../../lib/doc/anchor.js';
 
 describe('Anchor', () => {
   describe('colWidth', () => {

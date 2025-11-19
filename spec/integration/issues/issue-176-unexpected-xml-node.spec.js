@@ -1,4 +1,4 @@
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 
 describe('github issues', () => {
   it('issue 176 - Unexpected xml node in parseOpen', () => {

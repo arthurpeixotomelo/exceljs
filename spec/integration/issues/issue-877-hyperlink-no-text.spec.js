@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 
 // this file to contain integration tests created from github issues
 const TEST_XLSX_FILE_NAME = './spec/out/wb-issue-877.test.xlsx';

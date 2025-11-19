@@ -1,9 +1,8 @@
-const {PassThrough} = require('readable-stream');
-const express = require('express');
-const got = require('got');
-const testutils = require('../utils/index');
-
-const Excel = verquire('exceljs');
+import {PassThrough} from 'readable-stream';
+import express from 'express';
+import got from 'got';
+import testutils from '../utils/index.js';
+import Excel from '../../excel.js';
 
 describe('Express', () => {
   let server;

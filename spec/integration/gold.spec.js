@@ -1,4 +1,4 @@
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 
 // =============================================================================
 // This spec is based around a gold standard Excel workbook 'gold.xlsx'

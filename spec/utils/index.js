@@ -1,18 +1,28 @@
-const verquire = require('./verquire');
+import _ from './under-dash.js';
+import tools from './tools.js';
 
-const _ = require('./under-dash');
-const tools = require('./tools');
+import testWorkbookReader from './test-workbook-reader.js';
+import testDataValidationSheet from './test-data-validation-sheet.js';
+import testConditionalFormattingSheet from './test-conditional-formatting-sheet.js';
+import testValuesSheet from './test-values-sheet.js';
+import testSplicedSheet from './test-spliced-sheet.js';
 
-const testWorkbookReader = require('./test-workbook-reader');
+import Row from '../../lib/doc/row.js';
+import Column from '../../lib/doc/column.js';
 
-const Row = verquire('doc/row');
-const Column = verquire('doc/column');
+import viewsData from './data/views.json' with { type: 'json' };
+import sheetValuesData from './data/sheet-values.json' with { type: 'json' };
+import stylesData from './data/styles.json' with { type: 'json' };
+import sheetPropertiesData from './data/sheet-properties.json' with { type: 'json' };
+import pageSetupData from './data/page-setup.json' with { type: 'json' };
+import conditionalFormattingData from './data/conditional-formatting.json' with { type: 'json' };
+import headerFooterData from './data/header-footer.json' with { type: 'json' };
 
 const testSheets = {
-  dataValidations: require('./test-data-validation-sheet'),
-  conditionalFormatting: require('./test-conditional-formatting-sheet'),
-  values: require('./test-values-sheet'),
-  splice: require('./test-spliced-sheet'),
+  dataValidations: testDataValidationSheet,
+  conditionalFormatting: testConditionalFormattingSheet,
+  values: testValuesSheet,
+  splice: testSplicedSheet,
 };
 
 function getOptions(docType, options) {
@@ -48,16 +58,14 @@ function getOptions(docType, options) {
   return Object.assign(result, options);
 }
 
-module.exports = {
-  views: tools.fix(require('./data/views.json')),
-  testValues: tools.fix(require('./data/sheet-values.json')),
-  styles: tools.fix(require('./data/styles.json')),
-  properties: tools.fix(require('./data/sheet-properties.json')),
-  pageSetup: tools.fix(require('./data/page-setup.json')),
-  conditionalFormatting: tools.fix(
-    require('./data/conditional-formatting.json')
-  ),
-  headerFooter: tools.fix(require('./data/header-footer.json')),
+export default {
+  views: tools.fix(viewsData),
+  testValues: tools.fix(sheetValuesData),
+  styles: tools.fix(stylesData),
+  properties: tools.fix(sheetPropertiesData),
+  pageSetup: tools.fix(pageSetupData),
+  conditionalFormatting: tools.fix(conditionalFormattingData),
+  headerFooter: tools.fix(headerFooterData),
 
   createTestBook(workbook, docType, sheets) {
     const options = getOptions(docType);

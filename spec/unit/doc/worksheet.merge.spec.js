@@ -1,7 +1,7 @@
-const testUtils = require('../../utils/index');
+import testUtils from '../../utils/index';
 
-const Excel = verquire('exceljs');
-const Dimensions = verquire('doc/range');
+import Excel from '../../lib/exceljs.js';
+import Dimensions from '../../lib/doc/range.js';
 
 describe('Worksheet', () => {
   describe('Merge Cells', () => {

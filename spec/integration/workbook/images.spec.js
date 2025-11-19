@@ -1,7 +1,7 @@
 const fs = require('fs');
 const {promisify} = require('util');
 
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 
 const IMAGE_FILENAME = `${__dirname}/../data/image.png`;
 const TEST_XLSX_FILE_NAME = './spec/out/wb.test.xlsx';

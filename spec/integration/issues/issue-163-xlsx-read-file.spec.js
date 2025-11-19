@@ -1,4 +1,4 @@
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 
 describe('github issues', () => {
   it('issue 163 - Error while using xslx readFile method', () => {

@@ -1,4 +1,4 @@
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 
 const TEST_XLSX_FILE_NAME = './spec/out/wb.test.xlsx';
 

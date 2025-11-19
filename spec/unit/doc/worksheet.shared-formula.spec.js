@@ -1,4 +1,4 @@
-const Excel = verquire('exceljs');
+import Excel from '../../lib/exceljs.js';
 
 describe('Worksheet', () => {
   describe('Shared Formulae', () => {

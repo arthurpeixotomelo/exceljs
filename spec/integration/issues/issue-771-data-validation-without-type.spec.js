@@ -1,4 +1,4 @@
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 
 describe('github issues', () => {
   it('issue 771 - Issue with dataValidation without type and with formula1 or formula2', () => {

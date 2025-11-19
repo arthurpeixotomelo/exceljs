@@ -1,7 +1,8 @@
-const tools = require('./tools');
+import tools from './tools.js';
+import dataValidationsData from './data/data-validations.json' with { type: 'json' };
 
 const self = {
-  dataValidations: tools.fix(require('./data/data-validations.json')),
+  dataValidations: tools.fix(dataValidationsData),
   createDataValidations(type, operator) {
     const dataValidation = {
       type,
@@ -167,4 +168,4 @@ const self = {
   },
 };
 
-module.exports = self;
+export default self;

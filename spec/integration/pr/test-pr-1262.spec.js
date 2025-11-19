@@ -1,4 +1,4 @@
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 
 describe('github issues', () => {
   it('pull request 1262 - protect should work with streaming workbook writer', async () => {

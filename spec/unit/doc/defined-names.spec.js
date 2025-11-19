@@ -1,4 +1,4 @@
-const DefinedNames = verquire('doc/defined-names');
+import DefinedNames from '../../lib/doc/defined-names.js';
 
 describe('DefinedNames', () => {
   it('adds names for cells', () => {

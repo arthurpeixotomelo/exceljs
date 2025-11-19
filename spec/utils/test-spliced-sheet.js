@@ -1,6 +1,6 @@
-const Enums = verquire('doc/enums');
+import * as Enums from '../../lib/doc/enums.js';
 
-module.exports = {
+export default {
   rows: {
     removeOnly: {
       addSheet(wb) {

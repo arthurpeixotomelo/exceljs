@@ -1,4 +1,4 @@
-const ExcelJS = verquire('exceljs');
+import ExcelJS from '../../excel.js';
 const fs = require('fs');
 
 describe('github issues: Date field with cache style', () => {
