@@ -2,7 +2,7 @@ import testXformHelper from '../test-xform-helper.js';
 
 import CellXform from '../../../../../lib/xlsx/xform/sheet/cell-xform.js';
 import SharedStringsXform from '../../../../../lib/xlsx/xform/strings/shared-strings-xform.js';
-import Enums from '../../../../../lib/doc/enums.js';
+import * as Enums from '../../../../../lib/doc/enums.js';
 
 const fakeStyles = {
   addStyleModel(style, effectiveType) {
