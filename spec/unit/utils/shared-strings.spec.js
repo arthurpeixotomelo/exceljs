@@ -1,4 +1,4 @@
-const SharedStrings = verquire('utils/shared-strings');
+import SharedStrings from '../../lib/utils/shared-strings.js';
 
 describe('SharedStrings', () => {
   it('Stores and shares string values', () => {

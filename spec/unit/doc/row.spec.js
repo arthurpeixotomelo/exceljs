@@ -1,6 +1,6 @@
-const {createSheetMock} = require('../../utils/index');
+import {createSheetMock} from '../../utils/index';
 
-const Enums = verquire('doc/enums');
+import * as Enums from '../../lib/doc/enums.js';
 
 describe('Row', () => {
   it('stores cells', () => {

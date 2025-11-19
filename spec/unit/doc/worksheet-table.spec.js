@@ -1,5 +1,5 @@
-const colCache = verquire('utils/col-cache');
-const Excel = verquire('exceljs');
+import colCache from '../../lib/utils/col-cache.js';
+import Excel from '../../lib/exceljs.js';
 
 const spliceArray = (a, index, count, ...rest) => {
   const clone = [...a];

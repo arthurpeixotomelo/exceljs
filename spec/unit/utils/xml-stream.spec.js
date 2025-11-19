@@ -1,4 +1,4 @@
-const XmlStream = verquire('utils/xml-stream');
+import XmlStream from '../../lib/utils/xml-stream.js';
 
 describe('XmlStream', () => {
   it('Writes simple XML doc', () => {

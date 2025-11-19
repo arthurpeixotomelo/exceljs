@@ -1,5 +1,5 @@
-const _ = verquire('utils/under-dash');
-const util = require('util');
+import _ from '../../lib/utils/under-dash.js';
+import util from 'util';
 
 describe('under-dash', () => {
   describe('isEqual', () => {
