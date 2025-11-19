@@ -1,8 +1,14 @@
-const fs = require('fs');
+import fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
+
 
 import testXformHelper from '../test-xform-helper.js';
 
-const TableXform = verquire('xlsx/xform/table/table-xform');
+import TableXform from '../../../../../lib/xlsx/xform/table/table-xform.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const expectations = [
   {
@@ -12,7 +18,7 @@ const expectations = [
     },
     initialModel: null,
     preparedModel: require('./data/table.1.1'),
-    xml: fs.readFileSync(`${__dirname}/data/table.1.2.xml`).toString(),
+    xml: fs.readFileSync(join(__dirname, 'data/table.1.2.xml')).toString(),
     parsedModel: require('./data/table.1.3'),
     tests: ['render', 'renderIn', 'parse'],
   },

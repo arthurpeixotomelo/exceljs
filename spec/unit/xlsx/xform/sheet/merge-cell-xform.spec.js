@@ -1,6 +1,6 @@
 import testXformHelper from '../test-xform-helper.js';
 
-const MergeCellXform = verquire('xlsx/xform/sheet/merge-cell-xform');
+import MergeCellXform from '../../../../../lib/xlsx/xform/sheet/merge-cell-xform.js';
 
 const expectations = [
   {

@@ -1,9 +1,15 @@
-const fs = require('fs');
+import fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
+
 
 import testXformHelper from '../test-xform-helper.js';
 
-const StylesXform = verquire('xlsx/xform/style/styles-xform');
-const XmlStream = verquire('utils/xml-stream');
+import StylesXform from '../../../../../lib/xlsx/xform/style/styles-xform.js';
+import XmlStream from '../../../../../lib/utils/xml-stream.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const expectations = [
   {
@@ -12,7 +18,7 @@ const expectations = [
       return new StylesXform();
     },
     preparedModel: require('./data/styles.1.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/styles.1.2.xml`).toString(),
+    xml: fs.readFileSync(join(__dirname, 'data/styles.1.2.xml')).toString(),
     get parsedModel() {
       return this.preparedModel;
     },

@@ -1,6 +1,6 @@
 import testXformHelper from '../test-xform-helper.js';
 
-const UnderlineXform = verquire('xlsx/xform/style/underline-xform');
+import UnderlineXform from '../../../../../lib/xlsx/xform/style/underline-xform.js';
 
 const expectations = [
   {

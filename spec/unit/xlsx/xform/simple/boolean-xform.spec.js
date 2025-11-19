@@ -1,6 +1,6 @@
 import testXformHelper from '../test-xform-helper.js';
 
-const BooleanXform = verquire('xlsx/xform/simple/boolean-xform');
+import BooleanXform from '../../../../../lib/xlsx/xform/simple/boolean-xform.js';
 
 const expectations = [
   {

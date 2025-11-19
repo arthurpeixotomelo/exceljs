@@ -1,8 +1,6 @@
 import testXformHelper from '../test-xform-helper.js';
 
-const DataValidationsXform = verquire(
-  'xlsx/xform/sheet/data-validations-xform'
-);
+import DataValidationsXform from '../../../../../lib/xlsx/xform/sheet/data-validations-xform.js';
 
 const expectations = [
   {

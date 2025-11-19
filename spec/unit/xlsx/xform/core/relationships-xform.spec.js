@@ -1,8 +1,14 @@
-const fs = require('fs');
+import fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
+
 
 import testXformHelper from '../test-xform-helper.js';
 
-const RelationshipsXform = verquire('xlsx/xform/core/relationships-xform');
+import RelationshipsXform from '../../../../../lib/xlsx/xform/core/relationships-xform.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const expectations = [
   {

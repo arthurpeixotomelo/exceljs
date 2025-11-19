@@ -1,8 +1,17 @@
-const fs = require('fs');
+import fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname, join} from 'path';
 
 import testXformHelper from '../test-xform-helper.js';
 
-const WorkbookXform = verquire('xlsx/xform/book/workbook-xform');
+import WorkbookXform from '../../../../../lib/xlsx/xform/book/workbook-xform.js';
+
+import book11 from './data/book.1.1.json' with { type: 'json' };
+import book13 from './data/book.1.3.json' with { type: 'json' };
+import book23 from './data/book.2.3.json' with { type: 'json' };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const expectations = [
   {
@@ -10,12 +19,12 @@ const expectations = [
     create() {
       return new WorkbookXform();
     },
-    preparedModel: require('./data/book.1.1.json'),
+    preparedModel: book11,
     xml: fs
-      .readFileSync(`${__dirname}/data/book.1.2.xml`)
+      .readFileSync(join(__dirname, 'data/book.1.2.xml'))
       .toString()
       .replace(/\r\n/g, '\n'),
-    parsedModel: require('./data/book.1.3.json'),
+    parsedModel: book13,
     tests: ['render', 'renderIn', 'parse'],
   },
   {
@@ -24,10 +33,10 @@ const expectations = [
       return new WorkbookXform();
     },
     xml: fs
-      .readFileSync(`${__dirname}/data/book.2.2.xml`)
+      .readFileSync(join(__dirname, 'data/book.2.2.xml'))
       .toString()
       .replace(/\r\n/g, '\n'),
-    parsedModel: require('./data/book.2.3.json'),
+    parsedModel: book23,
     tests: ['parse'],
   },
 ];

@@ -1,13 +1,19 @@
-const fs = require('fs');
+import fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
+
 
 import testXformHelper from '../test-xform-helper.js';
 
-const Enums = verquire('doc/enums');
-const XmlStream = verquire('utils/xml-stream');
-const WorksheetXform = verquire('xlsx/xform/sheet/worksheet-xform');
+import Enums from '../../../../../lib/doc/enums.js';
+import XmlStream from '../../../../../lib/utils/xml-stream.js';
+import WorksheetXform from '../../../../../lib/xlsx/xform/sheet/worksheet-xform.js';
 
-const SharedStringsXform = verquire('xlsx/xform/strings/shared-strings-xform');
-const StylesXform = verquire('xlsx/xform/style/styles-xform');
+import SharedStringsXform from '../../../../../lib/xlsx/xform/strings/shared-strings-xform.js';
+import StylesXform from '../../../../../lib/xlsx/xform/style/styles-xform.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const fakeStyles = {
   addStyleModel(style, cellType) {
@@ -55,7 +61,7 @@ const expectations = [
     create: () => new WorksheetXform(),
     initialModel: fixDate(require('./data/sheet.1.0.json')),
     preparedModel: fixDate(require('./data/sheet.1.1.json')),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.1.2.xml`).toString(),
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.1.2.xml')).toString(),
     parsedModel: require('./data/sheet.1.3.json'),
     reconciledModel: fixDate(require('./data/sheet.1.4.json')),
     tests: ['prepare', 'render', 'parse'],
@@ -73,7 +79,7 @@ const expectations = [
     create: () => new WorksheetXform(),
     initialModel: require('./data/sheet.2.0.json'),
     preparedModel: require('./data/sheet.2.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.2.2.xml`).toString(),
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.2.2.xml')).toString(),
     tests: ['prepare', 'render'],
     options: {
       styles: new StylesXform(true),
@@ -87,7 +93,7 @@ const expectations = [
     title: 'Sheet 3 - Empty Sheet',
     create: () => new WorksheetXform(),
     preparedModel: require('./data/sheet.3.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.3.2.xml`).toString(),
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.3.2.xml')).toString(),
     tests: ['render'],
     options: {
       styles: new StylesXform(true),
@@ -100,7 +106,7 @@ const expectations = [
     create: () => new WorksheetXform(),
     initialModel: require('./data/sheet.5.0.json'),
     preparedModel: require('./data/sheet.5.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.5.2.xml`).toString(),
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.5.2.xml')).toString(),
     parsedModel: require('./data/sheet.5.3.json'),
     reconciledModel: require('./data/sheet.5.4.json'),
     tests: ['prepare-render', 'parse'],
@@ -117,7 +123,7 @@ const expectations = [
     title: 'Sheet 6 - AutoFilter',
     create: () => new WorksheetXform(),
     preparedModel: require('./data/sheet.6.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.6.2.xml`).toString(),
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.6.2.xml')).toString(),
     parsedModel: require('./data/sheet.6.3.json'),
     tests: ['render', 'parse'],
     options: {
@@ -134,7 +140,7 @@ const expectations = [
     create: () => new WorksheetXform(),
     initialModel: require('./data/sheet.7.0.json'),
     preparedModel: require('./data/sheet.7.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.7.2.xml`).toString(),
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.7.2.xml')).toString(),
     tests: ['prepare', 'render'],
     options: {
       sharedStrings: new SharedStringsXform(),
