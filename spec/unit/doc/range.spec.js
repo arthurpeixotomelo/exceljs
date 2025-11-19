@@ -1,4 +1,4 @@
-import Range from '../../lib/doc/range.js';
+import Range from '../../../lib/doc/range.js';
 
 describe('Range', () => {
   function check(

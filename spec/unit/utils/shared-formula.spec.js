@@ -1,4 +1,4 @@
-import {slideFormula} from '../../lib/utils/shared-formula.js';
+import {slideFormula} from '../../../lib/utils/shared-formula.js';
 
 describe('shared-formula', () => {
   describe('slideFormula', () => {

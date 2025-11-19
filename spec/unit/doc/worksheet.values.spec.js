@@ -1,7 +1,7 @@
-import testUtils from '../../utils/index';
+import testUtils from '../../utils/index.js';
 
-import _ from '../../lib/utils/under-dash.js';
-import Excel from '../../lib/exceljs.js';
+import _ from '../../../lib/utils/under-dash.js';
+import Excel from '../../../lib/exceljs.js';
 
 describe('Worksheet', () => {
   describe('Values', () => {

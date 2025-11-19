@@ -1,7 +1,7 @@
 import simpleWorkbookModel from '../data/simpleWorkbook.json';
-import testUtils from '../../utils/index';
+import testUtils from '../../utils/index.js';
 
-import Excel from '../../lib/exceljs.js';
+import Excel from '../../../lib/exceljs.js';
 
 // =============================================================================
 // Helpers

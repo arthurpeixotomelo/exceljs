@@ -1,4 +1,4 @@
-import _ from '../../lib/utils/under-dash.js';
+import _ from '../../../lib/utils/under-dash.js';
 import util from 'util';
 
 describe('under-dash', () => {

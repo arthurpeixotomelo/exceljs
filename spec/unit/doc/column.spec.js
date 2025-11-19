@@ -1,6 +1,6 @@
-import {createSheetMock} from '../../utils/index';
+import {createSheetMock} from '../../utils/index.js';
 
-import Column from '../../lib/doc/column.js';
+import Column from '../../../lib/doc/column.js';
 
 describe('Column', () => {
   it('creates by defn', () => {

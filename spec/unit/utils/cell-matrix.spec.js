@@ -1,4 +1,4 @@
-import CellMatrix from '../../lib/utils/cell-matrix.js';
+import CellMatrix from '../../../lib/utils/cell-matrix.js';
 
 describe('CellMatrix', () => {
   it('getCell always returns a cell', () => {

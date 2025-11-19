@@ -1,7 +1,7 @@
-import testUtils from '../../utils/index';
+import testUtils from '../../utils/index.js';
 
-import Excel from '../../lib/exceljs.js';
-import Dimensions from '../../lib/doc/range.js';
+import Excel from '../../../lib/exceljs.js';
+import Dimensions from '../../../lib/doc/range.js';
 
 describe('Worksheet', () => {
   describe('Merge Cells', () => {

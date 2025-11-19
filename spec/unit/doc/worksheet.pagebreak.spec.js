@@ -1,4 +1,4 @@
-import Excel from '../../lib/exceljs.js';
+import Excel from '../../../lib/exceljs.js';
 
 describe('Worksheet', () => {
   describe('Page Breaks', () => {

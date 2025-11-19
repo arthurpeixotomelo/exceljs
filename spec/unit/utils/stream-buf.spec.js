@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-import StreamBuf from '../../lib/utils/stream-buf.js';
-import StringBuf from '../../lib/utils/string-buf.js';
+import StreamBuf from '../../../lib/utils/stream-buf.js';
+import StringBuf from '../../../lib/utils/string-buf.js';
 
 describe('StreamBuf', () => {
   // StreamBuf is designed as a general-purpose writable-readable stream

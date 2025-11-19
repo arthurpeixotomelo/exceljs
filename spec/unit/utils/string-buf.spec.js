@@ -1,4 +1,4 @@
-import StringBuf from '../../lib/utils/string-buf.js';
+import StringBuf from '../../../lib/utils/string-buf.js';
 
 describe('StringBuf', () => {
   // StringBuf is a lightweight string-builder used by the streaming writers to build
