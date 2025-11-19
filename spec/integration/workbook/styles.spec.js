@@ -1,4 +1,4 @@
-const stream = require('readable-stream');
+const stream = require('stream');
 const testUtils = require('../../utils/index');
 
 import ExcelJS from '../../excel.js';

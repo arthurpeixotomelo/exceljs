@@ -1,13 +1,36 @@
-const fs = require('fs');
+import fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname, join} from 'path';
 
-const testXformHelper = require('../test-xform-helper');
 
-const Enums = verquire('doc/enums');
-const XmlStream = verquire('utils/xml-stream');
-const WorksheetXform = verquire('xlsx/xform/sheet/worksheet-xform');
+import testXformHelper from '../test-xform-helper.js';
 
-const SharedStringsXform = verquire('xlsx/xform/strings/shared-strings-xform');
-const StylesXform = verquire('xlsx/xform/style/styles-xform');
+import * as Enums from '../../../../../lib/doc/enums.js';
+import XmlStream from '../../../../../lib/utils/xml-stream.js';
+import WorksheetXform from '../../../../../lib/xlsx/xform/sheet/worksheet-xform.js';
+
+import SharedStringsXform from '../../../../../lib/xlsx/xform/strings/shared-strings-xform.js';
+import StylesXform from '../../../../../lib/xlsx/xform/style/styles-xform.js';
+
+import sheet_1_0 from './data/sheet.1.0.json' with { type: 'json' };
+import sheet_1_1 from './data/sheet.1.1.json' with { type: 'json' };
+import sheet_1_3 from './data/sheet.1.3.json' with { type: 'json' };
+import sheet_1_4 from './data/sheet.1.4.json' with { type: 'json' };
+import sheet_2_0 from './data/sheet.2.0.json' with { type: 'json' };
+import sheet_2_1 from './data/sheet.2.1.json' with { type: 'json' };
+import sheet_3_1 from './data/sheet.3.1.json' with { type: 'json' };
+import sheet_5_0 from './data/sheet.5.0.json' with { type: 'json' };
+import sheet_5_1 from './data/sheet.5.1.json' with { type: 'json' };
+import sheet_5_3 from './data/sheet.5.3.json' with { type: 'json' };
+import sheet_5_4 from './data/sheet.5.4.json' with { type: 'json' };
+import sheet_6_1 from './data/sheet.6.1.json' with { type: 'json' };
+import sheet_6_3 from './data/sheet.6.3.json' with { type: 'json' };
+import sheet_7_0 from './data/sheet.7.0.json' with { type: 'json' };
+import sheet_7_1 from './data/sheet.7.1.json' with { type: 'json' };
+import sheet_4_0 from './data/sheet.4.0.json' with { type: 'json' };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const fakeStyles = {
   addStyleModel(style, cellType) {
@@ -53,11 +76,11 @@ const expectations = [
   {
     title: 'Sheet 1',
     create: () => new WorksheetXform(),
-    initialModel: fixDate(require('./data/sheet.1.0.json')),
-    preparedModel: fixDate(require('./data/sheet.1.1.json')),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.1.2.xml`).toString(),
-    parsedModel: require('./data/sheet.1.3.json'),
-    reconciledModel: fixDate(require('./data/sheet.1.4.json')),
+    initialModel: fixDate(sheet_1_0),
+    preparedModel: fixDate(sheet_1_1),
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.1.2.xml')).toString(),
+    parsedModel: sheet_1_3,
+    reconciledModel: fixDate(sheet_1_4),
     tests: ['prepare', 'render', 'parse'],
     options: {
       sharedStrings: new SharedStringsXform(),
@@ -71,9 +94,9 @@ const expectations = [
   {
     title: 'Sheet 2 - Data Validations',
     create: () => new WorksheetXform(),
-    initialModel: require('./data/sheet.2.0.json'),
-    preparedModel: require('./data/sheet.2.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.2.2.xml`).toString(),
+    initialModel: sheet_2_0,
+    preparedModel: sheet_2_1,
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.2.2.xml')).toString(),
     tests: ['prepare', 'render'],
     options: {
       styles: new StylesXform(true),
@@ -86,8 +109,8 @@ const expectations = [
   {
     title: 'Sheet 3 - Empty Sheet',
     create: () => new WorksheetXform(),
-    preparedModel: require('./data/sheet.3.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.3.2.xml`).toString(),
+    preparedModel: sheet_3_1,
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.3.2.xml')).toString(),
     tests: ['render'],
     options: {
       styles: new StylesXform(true),
@@ -98,11 +121,11 @@ const expectations = [
   {
     title: 'Sheet 5 - Shared Formulas',
     create: () => new WorksheetXform(),
-    initialModel: require('./data/sheet.5.0.json'),
-    preparedModel: require('./data/sheet.5.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.5.2.xml`).toString(),
-    parsedModel: require('./data/sheet.5.3.json'),
-    reconciledModel: require('./data/sheet.5.4.json'),
+    initialModel: sheet_5_0,
+    preparedModel: sheet_5_1,
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.5.2.xml')).toString(),
+    parsedModel: sheet_5_3,
+    reconciledModel: sheet_5_4,
     tests: ['prepare-render', 'parse'],
     options: {
       sharedStrings: new SharedStringsXform(),
@@ -116,9 +139,9 @@ const expectations = [
   {
     title: 'Sheet 6 - AutoFilter',
     create: () => new WorksheetXform(),
-    preparedModel: require('./data/sheet.6.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.6.2.xml`).toString(),
-    parsedModel: require('./data/sheet.6.3.json'),
+    preparedModel: sheet_6_1,
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.6.2.xml')).toString(),
+    parsedModel: sheet_6_3,
     tests: ['render', 'parse'],
     options: {
       sharedStrings: new SharedStringsXform(),
@@ -132,9 +155,9 @@ const expectations = [
   {
     title: 'Sheet 7 - Row Breaks',
     create: () => new WorksheetXform(),
-    initialModel: require('./data/sheet.7.0.json'),
-    preparedModel: require('./data/sheet.7.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sheet.7.2.xml`).toString(),
+    initialModel: sheet_7_0,
+    preparedModel: sheet_7_1,
+    xml: fs.readFileSync(join(__dirname, 'data/sheet.7.2.xml')).toString(),
     tests: ['prepare', 'render'],
     options: {
       sharedStrings: new SharedStringsXform(),
@@ -152,7 +175,7 @@ describe('WorksheetXform', () => {
 
   it('hyperlinks must be after dataValidations', () => {
     const xform = new WorksheetXform();
-    const model = require('./data/sheet.4.0.json');
+    const model = sheet_4_0;
     const xmlStream = new XmlStream();
     const options = {
       styles: new StylesXform(true),
@@ -172,7 +195,7 @@ describe('WorksheetXform', () => {
 
   it('conditionalFormattings must be before dataValidations', () => {
     const xform = new WorksheetXform();
-    const model = require('./data/sheet.4.0.json');
+    const model = sheet_4_0;
     const xmlStream = new XmlStream();
     const options = {
       styles: new StylesXform(true),

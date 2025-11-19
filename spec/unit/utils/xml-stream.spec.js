@@ -1,4 +1,4 @@
-import XmlStream from '../../lib/utils/xml-stream.js';
+import XmlStream from '../../../lib/utils/xml-stream.js';
 
 describe('XmlStream', () => {
   it('Writes simple XML doc', () => {

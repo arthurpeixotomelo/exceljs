@@ -1,4 +1,4 @@
-import DefinedNames from '../../lib/doc/defined-names.js';
+import DefinedNames from '../../../lib/doc/defined-names.js';
 
 describe('DefinedNames', () => {
   it('adds names for cells', () => {

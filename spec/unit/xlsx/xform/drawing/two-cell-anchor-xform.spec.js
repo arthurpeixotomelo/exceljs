@@ -1,4 +1,4 @@
-const TwoCellAnchorXform = verquire('xlsx/xform/drawing/two-cell-anchor-xform');
+import TwoCellAnchorXform from '../../../../../lib/xlsx/xform/drawing/two-cell-anchor-xform.js';
 
 describe('TwoCellAnchorXform', () => {
   describe('reconcile', () => {

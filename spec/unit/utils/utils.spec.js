@@ -1,4 +1,4 @@
-import utils from '../../lib/utils/utils.js';
+import utils from '../../../lib/utils/utils.js';
 
 describe('utils', () => {
   describe('xmlEncode', () => {

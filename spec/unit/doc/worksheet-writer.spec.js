@@ -1,5 +1,5 @@
-import WorksheetWriter from '../../lib/stream/xlsx/worksheet-writer.js';
-import StreamBuf from '../../lib/utils/stream-buf.js';
+import WorksheetWriter from '../../../lib/stream/xlsx/worksheet-writer.js';
+import StreamBuf from '../../../lib/utils/stream-buf.js';
 
 describe('Workbook Writer', () => {
   it('generates valid xml even when there is no data', () =>

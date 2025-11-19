@@ -1,9 +1,17 @@
-const fs = require('fs');
+import fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
 
-const testXformHelper = require('../test-xform-helper');
 
-const StylesXform = verquire('xlsx/xform/style/styles-xform');
-const XmlStream = verquire('utils/xml-stream');
+import testXformHelper from '../test-xform-helper.js';
+
+import StylesXform from '../../../../../lib/xlsx/xform/style/styles-xform.js';
+import XmlStream from '../../../../../lib/utils/xml-stream.js';
+
+import styles_1_1 from './data/styles.1.1.json' with { type: 'json' };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const expectations = [
   {
@@ -11,8 +19,8 @@ const expectations = [
     create() {
       return new StylesXform();
     },
-    preparedModel: require('./data/styles.1.1.json'),
-    xml: fs.readFileSync(`${__dirname}/data/styles.1.2.xml`).toString(),
+    preparedModel: styles_1_1,
+    xml: fs.readFileSync(join(__dirname, 'data/styles.1.2.xml')).toString(),
     get parsedModel() {
       return this.preparedModel;
     },
@@ -27,7 +35,7 @@ describe('StylesXform', () => {
     it('Renders empty model', () => {
       const stylesXform = new StylesXform(true);
       const expectedXml = fs
-        .readFileSync(`${__dirname}/data/styles.2.2.xml`)
+        .readFileSync(join(__dirname, 'data/styles.2.2.xml'))
         .toString();
 
       const xmlStream = new XmlStream();

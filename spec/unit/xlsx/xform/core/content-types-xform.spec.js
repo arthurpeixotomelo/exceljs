@@ -1,8 +1,14 @@
-const fs = require('fs');
+import fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
 
-const testXformHelper = require('../test-xform-helper');
 
-const ContentTypesXform = verquire('xlsx/xform/core/content-types-xform');
+import testXformHelper from '../test-xform-helper.js';
+
+import ContentTypesXform from '../../../../../lib/xlsx/xform/core/content-types-xform.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const expectations = [
   {

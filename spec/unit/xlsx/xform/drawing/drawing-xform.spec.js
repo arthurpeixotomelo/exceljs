@@ -1,8 +1,19 @@
-const fs = require('fs');
+import fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname, join} from 'path';
 
-const testXformHelper = require('../test-xform-helper');
 
-const DrawingXform = verquire('xlsx/xform/drawing/drawing-xform');
+import testXformHelper from '../test-xform-helper.js';
+
+import DrawingXform from '../../../../../lib/xlsx/xform/drawing/drawing-xform.js';
+
+import drawing10 from './data/drawing.1.0.js';
+import drawing11 from './data/drawing.1.1.js';
+import drawing13 from './data/drawing.1.3.js';
+import drawing14 from './data/drawing.1.4.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const options = {
   rels: {
@@ -19,11 +30,11 @@ const expectations = [
     create() {
       return new DrawingXform({tag: 'xdr:from'});
     },
-    initialModel: require('./data/drawing.1.0.js'),
-    preparedModel: require('./data/drawing.1.1.js'),
-    xml: fs.readFileSync(`${__dirname}/data/drawing.1.2.xml`).toString(),
-    parsedModel: require('./data/drawing.1.3.js'),
-    reconciledModel: require('./data/drawing.1.4.js'),
+    initialModel: drawing10,
+    preparedModel: drawing11,
+    xml: fs.readFileSync(join(__dirname, 'data/drawing.1.2.xml')).toString(),
+    parsedModel: drawing13,
+    reconciledModel: drawing14,
     tests: ['prepare', 'render', 'renderIn', 'parse', 'reconcile'],
     options,
   },

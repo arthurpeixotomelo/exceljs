@@ -1,8 +1,16 @@
-const fs = require('fs');
+import fs from 'fs';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
 
-const testXformHelper = require('../test-xform-helper');
 
-const SharedStringsXform = verquire('xlsx/xform/strings/shared-strings-xform');
+import testXformHelper from '../test-xform-helper.js';
+
+import SharedStringsXform from '../../../../../lib/xlsx/xform/strings/shared-strings-xform.js';
+
+import sharedStrings from './data/sharedStrings.json' with { type: 'json' };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const expectations = [
   {
@@ -10,8 +18,8 @@ const expectations = [
     create() {
       return new SharedStringsXform();
     },
-    preparedModel: require('./data/sharedStrings.json'),
-    xml: fs.readFileSync(`${__dirname}/data/sharedStrings.xml`).toString(),
+    preparedModel: sharedStrings,
+    xml: fs.readFileSync(join(__dirname, 'data/sharedStrings.xml')).toString(),
     get parsedModel() {
       return this.preparedModel;
     },

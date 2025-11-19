@@ -1,6 +1,6 @@
-import testXformHelper from '../test-xform-helper';
+import testXformHelper from '../test-xform-helper.js';
 
-import DefinedNameXform from '../../lib/xlsx/xform/book/defined-name-xform.js';
+import DefinedNameXform from '../../../../../lib/xlsx/xform/book/defined-name-xform.js';
 
 const expectations = [
   {

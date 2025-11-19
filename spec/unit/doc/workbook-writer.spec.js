@@ -1,6 +1,6 @@
-import Stream from 'readable-stream';
+import Stream from 'stream';
 
-import Excel from '../../lib/exceljs.js';
+import Excel from '../../../lib/exceljs.nodejs.js';
 
 describe('Workbook Writer', () => {
   it('returns undefined for non-existant sheet', () => {

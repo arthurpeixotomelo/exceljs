@@ -1,4 +1,4 @@
-import {PassThrough} from 'readable-stream';
+import {PassThrough} from 'stream';
 import express from 'express';
 import got from 'got';
 import testutils from '../utils/index.js';
