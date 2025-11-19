@@ -1,6 +1,6 @@
 import fs from 'fs';
 import {fileURLToPath} from 'url';
-import {dirname} from 'path';
+import {dirname, join} from 'path';
 
 
 import testXformHelper from '../test-xform-helper.js';
@@ -27,7 +27,6 @@ import sheet_6_1 from './data/sheet.6.1.json' with { type: 'json' };
 import sheet_6_3 from './data/sheet.6.3.json' with { type: 'json' };
 import sheet_7_0 from './data/sheet.7.0.json' with { type: 'json' };
 import sheet_7_1 from './data/sheet.7.1.json' with { type: 'json' };
-import sheet_4_0 from './data/sheet.4.0.json' with { type: 'json' };
 import sheet_4_0 from './data/sheet.4.0.json' with { type: 'json' };
 
 const __filename = fileURLToPath(import.meta.url);
