@@ -1,6 +1,8 @@
-import {createSheetMock} from '../../utils/index.js';
+import testUtils from '../../utils/index.js';
 
 import * as Enums from '../../../lib/doc/enums.js';
+
+const {createSheetMock} = testUtils;
 
 describe('Row', () => {
   it('stores cells', () => {

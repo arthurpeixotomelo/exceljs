@@ -1,6 +1,6 @@
 import testUtils from '../../utils/index.js';
 
-import Excel from '../../../lib/exceljs.js';
+import Excel from '../../../lib/exceljs.nodejs.js';
 import Dimensions from '../../../lib/doc/range.js';
 
 describe('Worksheet', () => {

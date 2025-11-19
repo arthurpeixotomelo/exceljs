@@ -1,6 +1,8 @@
-import {createSheetMock} from '../../utils/index.js';
+import testUtils from '../../utils/index.js';
 
 import Anchor from '../../../lib/doc/anchor.js';
+
+const {createSheetMock} = testUtils;
 
 describe('Anchor', () => {
   describe('colWidth', () => {
