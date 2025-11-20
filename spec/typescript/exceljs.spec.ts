@@ -1,7 +1,5 @@
-import 'regenerator-runtime/runtime';
-
-import { expect } from 'chai';
 import ExcelJS from '../../index';
+import { expect, describe, it } from 'chai';
 
 describe('typescript', () => {
   it('can create and buffer xlsx', async () => {

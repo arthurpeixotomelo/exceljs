@@ -1,6 +1,6 @@
-const fs = require('fs');
+import { existsSync } from 'node:fs';
 
-const exists = path => new Promise(resolve => fs.exists(path, resolve));
+const exists = path => new Promise(resolve => resolve(existsSync(path)));
 
 describe('ExcelJS', () => {
   describe('dist folder', () => {

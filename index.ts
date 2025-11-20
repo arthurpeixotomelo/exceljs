@@ -1,2 +1,2 @@
-import * as ExcelJS from './dist/es5';
+import * as ExcelJS from './lib/exceljs.nodejs.js';
 export default ExcelJS;

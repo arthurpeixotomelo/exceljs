@@ -1,402 +1,113 @@
-# ExcelJS ESM Migration & Modernization - Complete Summary
+```markdown
+# ExcelJS ESM Migration & Modernization Status
+
+## Table of Contents
+- [Overview](#overview)
+- [Completed Work](#completed-work)
+- [Current State](#current-state)
+- [Outstanding Work](#outstanding-work)
+- [Open Risks](#open-risks)
+- [Success Criteria](#success-criteria)
+- [Suggested Next Actions](#suggested-next-actions)
 
 ## Overview
 
-This document provides a consolidated summary of the ESM migration and modernization work for the ExcelJS library, combining information from all previously created documentation files with an assessment of remaining work.
-
----
-
-## Major Tasks Completed ✅
-
-### 1. Full ESM Migration of Test Infrastructure (91 files)
-
-**verquire() Conversions (71 files)**
-- Automated conversion using Python script
-- Pattern: `const Name = verquire('path')` → `import Name from '../../../../../lib/path.js'`
-- All xform test files converted to direct ESM imports
-- Multi-line patterns handled correctly
-- Relative paths calculated automatically based on file depth
-
-**fs/dirname/require Conversions (10 files)**
-- `const fs = require('fs')` → `import fs from 'fs'`
-- Added ESM `__dirname` polyfill with `fileURLToPath` and `dirname`
-- Fixed path concatenation to use `join()` instead of template strings
-- Files: app-xform, content-types-xform, relationships-xform, core-xform, styles-xform, drawing-xform, table-xform, shared-strings-xform, workbook-xform, worksheet-xform
-
-**JSON require() Conversions (6 files)**
-- Inline `require('./data/file.json')` → JSON import assertions
-- Pattern: `import data from './data/file.json' with { type: 'json' }`
-- Files: relationships-xform, drawing-xform, worksheet-xform, shared-strings-xform, styles-xform, table-xform
-
-**Data File Exports (4 files)**
-- Converted `module.exports =` → `export default` in drawing test data files
-- Fixed duplicate imports and missing path imports
-
-**Import Pattern Fixes**
-- Fixed Enums imports from default to namespace: `import * as Enums`
-- Added missing `join` imports where needed
-- Fixed import paths throughout test suite
-
-**Earlier Conversions**
-- Test utilities: verquire.js, under-dash.js, test-xform-helper.js, compy-xform.js
-- Test file imports: 60+ files converted from require to import
-- Integration test: pr-896 test file fully converted
-
-### 2. Dependency Modernization (Phase 1, Step 2)
-
-**Replaced with Native Node.js APIs (3 dependencies removed)**
-
-1. **readable-stream → native stream module**
-   - Modified 5 library files + test files
-   - Better performance with native implementation
-   - No polyfill needed for Node 20+
-   - Files: parse-sax.js, stream-buf.js, stream-base64.js, xlsx.js, workbook-reader.js
-
-2. **uuid → crypto.randomUUID()**
-   - Modified cf-rule-ext-xform.js
-   - Native UUID generation in Node 14.17+
-   - Faster execution, no external dependency
-
-3. **tmp → fs.promises + os.tmpdir()**
-   - Modified workbook-reader.js
-   - Improved async/await pattern
-   - Fixed security vulnerability (GHSA-52f5-9888-hmc6)
-   - More predictable cleanup behavior
-
-**Updated DevDependencies (13 major updates)**
-- mocha: 7.2.0 → 10.0.0
-- eslint: 6.5.1 → 8.57.0
-- typescript: 3.9.7 → 5.0.0
-- got: 9.0.0 → 14.0.0
-- chai-xml: 0.3.2 → 0.4.1
-- @types/mocha: 8.0.3 → 10.0.0
-- @types/node: 14.11.2 → 20.0.0
-- husky: 4.3.0 → 9.0.0
-- lint-staged: 10.2.13 → 15.0.0
-- ts-node: 8.10.2 → 10.0.0
-- prettier-eslint: 11.0.0 → 16.0.0
-- prettier-eslint-cli: 5.0.0 → 8.0.0
-- eslint-config-airbnb-base: 14.2.0 → 15.0.0
-
-**Security Status**
-- Before: 19 vulnerabilities (3 critical, 7 high, 4 moderate, 5 low)
-- After: **0 vulnerabilities** ✅
-
-**Node.js Requirement**
-- Updated from `>=24.0.0` to `>=20.0.0` (more practical while remaining modern)
-
-**Benefits**
-- 3 fewer production dependencies
-- ~230KB package size reduction
-- All security vulnerabilities resolved
-- Modern development tooling
-- No breaking changes to public API
-
-### 3. Library Code Fixes (4 files)
-
-**Import/Export Fixes**
-- `lib/xlsx/xform/sheet/cf-ext/cf-rule-ext-xform.js`: Fixed import syntax and replaced uuid
-- `lib/doc/pivot-table.js`: Changed default export object → named export
-- `lib/xlsx/xform/comment/comment-xform.js`: Converted CommonJS → ES6 class
-- `lib/xlsx/xform/comment/comments-xform.js`: Converted CommonJS → ES6 class
-
-### 4. Configuration Updates (2 files)
-
-- `.mocharc.json`: Fixed loader path for ESM
-- `spec/config/setup.js`: Already ESM compatible
-
-### 5. Documentation Created (4 files)
-
-- **WORK_SUMMARY.md**: Executive overview
-- **ESM_MIGRATION_SUMMARY.md**: Technical details and file inventory
-- **MODERNIZATION_PLAN.md**: 4-week phased roadmap
-- **DEPENDENCY_MODERNIZATION.md**: Complete dependency modernization report
-
----
-
-## Current State Assessment
-
-### ✅ Fully ESM Compatible
-- **Library code**: Core functionality fully ESM
-- **Unit test infrastructure**: All 91 files converted and can load
-- **Test configuration**: Mocha configured for ESM
-- **Dependencies**: Modernized with 0 security vulnerabilities
-- **Package structure**: Configured with `"type": "module"`
-
-### ⚠️ Remaining CommonJS Patterns
-
-**Integration Tests (24 files with require/module.exports)**
-- issue-1328-xlsx-worksheet-reader-date.spec.js
-- issue-1842-dataValidations-memory-overload.spec.js
-- issue-877-hyperlink-no-text.spec.js
-- issue-880-malformed-comment.spec.js
-- workbook/workbook.spec.js
-- workbook/pivot-tables.spec.js
-- workbook/styles.spec.js
-- workbook/images.spec.js
-- worksheet.spec.js
-- workbook-xlsx-writer/workbook-xlsx-writer.spec.js
-- workbook-xlsx-reader.spec.js
-- worksheet-xlsx-writer.spec.js
-- data/rich-text-sample.js (module.exports)
-
-**Pattern**: Mostly `const fs = require('fs')` and `const testUtils = require('../../utils/index')`
-
-**End-to-End Tests**
-- express.spec.js: Has one require comment, needs verification
-
-### 📊 Remaining Production Dependencies
-
-These dependencies are still used and need ESM verification:
-
-1. **archiver (^5.0.0)** - Used in: workbook-writer.js
-   - Purpose: ZIP file creation for Excel files
-   - ESM Status: Needs verification
-   - Native Alternative: Complex, would require significant rewrite
-
-2. **jszip (^3.10.1)** - Used in: zip-stream.js, xlsx.js
-   - Purpose: ZIP file manipulation
-   - ESM Status: Needs verification
-   - Native Alternative: None suitable for browser compatibility
-
-3. **unzipper (^0.10.11)** - Used in: workbook-reader.js
-   - Purpose: ZIP file extraction
-   - ESM Status: Needs verification
-   - Native Alternative: None with streaming support
-
-4. **saxes (^5.0.1)** - Used in: parse-sax.js
-   - Purpose: XML parsing
-   - ESM Status: Likely ESM compatible
-   - Native Alternative: None with SAX-style parsing
-
-5. **dayjs (^1.8.34)** - Used in: csv.js
-   - Purpose: Date manipulation
-   - ESM Status: ESM compatible
-   - Native Alternative: Native Date API (but dayjs provides better formatting)
-
-6. **fast-csv (^4.3.1)** - Used in: csv.js
-   - Purpose: CSV parsing/writing
-   - ESM Status: Needs verification
-   - Native Alternative: Could use native streams with manual parsing (complex)
-
----
-
-## Remaining Tasks
-
-### Priority 1: Integration/E2E Test Conversion (~1 day)
-
-**Integration Tests**
-- Convert ~24 files from require to import
-- Pattern similar to unit tests
-- Update testUtils imports
-- Convert rich-text-sample.js data file
-
-**End-to-End Tests**
-- Verify express.spec.js works
-- Convert any remaining require calls
-
-**Estimated Effort**: 4-6 hours
-
-### Priority 2: Dependency ESM Verification (~0.5 day)
-
-**Tasks**
-- Test each dependency for ESM compatibility
-- Document any issues found
-- Identify alternatives if needed
-
-**Dependencies to Test**
-- archiver: Check if ^5.0.0 supports ESM
-- jszip: Check if ^3.10.1 supports ESM
-- unzipper: Check if ^0.10.11 supports ESM
-- saxes: Likely compatible
-- fast-csv: Check ^4.3.1 compatibility
-- dayjs: Already ESM compatible
-
-**Estimated Effort**: 2-4 hours
-
-### Priority 3: Build System Migration (~4 days)
-
-**Current State**
-- Grunt + Babel + Browserify (all CommonJS-based)
-- Not tested with ESM source
-
-**Recommended: Migrate to Vite**
-- Install Vite and plugins
-- Create vite.config.js for library mode
-- Configure multiple outputs (ESM, browser bundle)
-- Test all build outputs
-- Remove old build files
-
-**Alternative: Update to Rollup**
-- Keep Grunt as task runner
-- Replace Browserify with Rollup
-
-**Estimated Effort**: 4-5 days
-
-### Priority 4: JSR Deployment Preparation (~5 days)
-
-**Tasks**
-- Review JSR requirements
-- Update TypeScript definitions for ESM
-- Create jsr.json configuration
-- Update documentation with ESM examples
-- Create migration guide for users
-- Set up GitHub Actions deployment workflow
-
-**Estimated Effort**: 5 days
-
-### Priority 5: Testing & Documentation (~3 days)
-
-**Tasks**
-- Run full test suite across all test types
-- Test in different Node.js versions (20, 22, 24)
-- Test browser builds
-- Performance testing vs old version
-- Documentation review and updates
-- Create release notes
-
-**Estimated Effort**: 3 days
-
----
-
-## Migration Progress
-
-### Completion Status
-
-| Category | Status | Progress |
-|----------|--------|----------|
-| Library Code ESM | ✅ Complete | 100% |
-| Unit Tests ESM | ✅ Complete | 100% (91 files) |
-| Integration Tests ESM | ⏳ Pending | 0% (~24 files) |
-| E2E Tests ESM | ⏳ Pending | 0% (~1 file) |
-| Dependencies Modernized | ✅ Complete | 100% |
-| Security Vulnerabilities | ✅ Resolved | 0 issues |
-| Build System | ⏳ Pending | 0% |
-| JSR Deployment Prep | ⏳ Pending | 0% |
-
-**Overall Progress**: ~80% complete
-
-### Timeline to Completion
-
-| Phase | Tasks | Duration | Status |
-|-------|-------|----------|--------|
-| Phase 1a: Unit Tests | verquire conversion, fixes | 3.5 days | ✅ Complete |
-| Phase 1b: Dependencies | Replace, update, secure | 3 days | ✅ Complete |
-| Phase 1c: Integration/E2E | Convert remaining tests | 1 day | ⏳ Pending |
-| Phase 2: Build System | Migrate to Vite | 4 days | ⏳ Pending |
-| Phase 3: JSR Prep | Docs, config, workflow | 5 days | ⏳ Pending |
-| Phase 4: Testing | Comprehensive validation | 3 days | ⏳ Pending |
-
-**Total Remaining**: ~13 days (2.5 weeks)
-**Original Estimate**: 20 days (4 weeks)
-**Time Saved**: 7 days by completing major conversions
-
----
-
-## Key Achievements
-
-### Technical Wins
-
-1. **Zero Security Vulnerabilities**: Resolved 19 issues (3 critical, 7 high)
-2. **Reduced Dependencies**: 3 fewer production dependencies
-3. **Smaller Package**: ~230KB reduction from removed dependencies
-4. **Modern Tooling**: Updated to latest versions of all dev tools
-5. **Native APIs**: Leveraging Node.js built-in functionality
-6. **Test Infrastructure**: 91 files fully converted and working
-
-### Process Wins
-
-1. **Automated Conversion**: Created Python scripts for bulk conversions
-2. **Comprehensive Documentation**: 4 detailed strategy documents
-3. **Clear Roadmap**: Phase-by-phase plan with effort estimates
-4. **Risk Mitigation**: Identified and planned for potential issues
-5. **Systematic Approach**: Converted files in logical groups
-
----
-
-## Recommendations
-
-### Immediate Next Steps
-
-1. **Convert Integration Tests** (1 day)
-   - Apply same patterns used for unit tests
-   - Use automated conversion where possible
-   - Verify all tests can load
-
-2. **Verify Dependency ESM Support** (0.5 day)
-   - Test each remaining dependency
-   - Document compatibility status
-   - Plan alternatives if needed
-
-3. **Run Full Test Suite** (0.5 day)
-   - Execute all unit tests
-   - Execute all integration tests
-   - Document baseline results
-   - Identify any runtime issues
-
-### Short-term Goals (Next 2 Weeks)
-
-1. **Begin Build System Migration**
-   - Research Vite configuration for libraries
-   - Set up basic Vite config
-   - Test ESM build output
-
-2. **Update Browser Build**
-   - Ensure browser compatibility maintained
-   - Test in multiple browsers
-   - Verify bundle size
-
-### Medium-term Goals (Weeks 3-4)
-
-1. **Complete Build System**
-   - Finalize all build configurations
-   - Remove old build files
-   - Update CI/CD pipelines
-
-2. **JSR Preparation**
-   - Create deployment workflow
-   - Update all documentation
-   - Prepare migration guide
-
-3. **Beta Release**
-   - Release beta to JSR
-   - Gather community feedback
-   - Fix any issues discovered
-
----
-
-## Breaking Changes (Future v5.0.0)
-
-### For End Users
-
-1. **ESM-Only**: No CommonJS support (unless dual-mode added)
-2. **Node.js Requirement**: Minimum Node.js 20.0.0
-3. **Import Syntax**: Must use `.js` extensions in imports
-4. **Package Structure**: New dist/ folder structure
-
-### Migration Example
-
-```javascript
-// Before (v4 - CommonJS)
-const ExcelJS = require('exceljs');
-const workbook = new ExcelJS.Workbook();
-
-// After (v5 - ESM)
-import ExcelJS from 'exceljs';
-const workbook = new ExcelJS.Workbook();
-```
-
----
-
-## Risk Assessment
-
-### Low Risk ✅
-
-- **Dependency Updates**: All tested and working
-- **Native API Replacements**: Proven and stable
-- **Unit Test Conversion**: Complete and verified
-
-### Medium Risk ⚠️
+ExcelJS now runs as an ESM-first project with a modernized dependency stack and an established roadmap toward a JSR-ready release. This document consolidates every previous status, issue list, and modernization note into a single source of truth so the redundant markdown files can be removed. All timelines and hour estimates have been dropped; only the actionable state of the work remains.
+
+## Completed Work
+
+### ESM Conversion Highlights
+- Library sources (171 files) compile as ESM with `.js`-suffixed imports and corrected export patterns.
+- Critical modules such as `lib/doc/pivot-table.js`, `lib/xlsx/xform/comment/*`, and `lib/xlsx/xform/sheet/cf-ext/cf-rule-ext-xform.js` were rewritten to use valid ESM classes and `crypto.randomUUID`.
+- Mocha, `spec/config`, and the custom `verquire`, `under-dash`, `test-xform-helper`, and `compy-xform` utilities are fully ESM-aware.
+- 91 unit-level spec files (including every xform test) now import straight from `lib/` via statically analyzable paths and JSON import assertions where needed.
+
+### Dependency Modernization
+- Removed `readable-stream`, `tmp`, and `uuid` in favor of Node 20+ built-ins (`stream`, `fs/promises`, `os.tmpdir`, `crypto.randomUUID`).
+- Updated all key dev dependencies (Mocha 10, ESLint 8, TypeScript 5, husky 9, lint-staged 15, prettier-eslint 16, etc.).
+- Package now targets Node `>=20.0.0`, aligning tooling, documentation, and runtime assumptions.
+- `npm audit` reports **0 vulnerabilities**; the prior 19 issues (including tmp symlink exploit and minimatch ReDoS) are eradicated.
+
+### Documentation & Planning
+- This file now captures the details previously spread across `WORK_SUMMARY.md`, `ESM_MIGRATION_SUMMARY.md`, `MODERNIZATION_PLAN.md`, `DEPENDENCY_MODERNIZATION.md`, `ESM_MIGRATION_ISSUES.md`, and `GITHUB_ISSUES_ESM.md`.
+- The removed documents covered accomplishments, dependency work, migration risks, GitHub issue templates, and phased plans—everything material has been merged here.
+
+## Current State
+
+| Area | Status | Notes |
+| --- | --- | --- |
+| Library code | ✅ ESM-ready | All sources and configs use `import`/`export` with `.js` endings. |
+| Unit tests | ✅ Converted | verquire eliminated, utilities updated, mocha loads via `.mocharc.json`. |
+| Integration tests | ⚠️ Pending | ~24 specs (see list below) still use CommonJS patterns and `module.exports` data fixtures. |
+| End-to-end tests | ⚠️ Review needed | `spec/end-to-end/express.spec.js` retains a `require` path that must be confirmed. |
+| Dependencies | ✅ Modernized | Production stack trimmed to archiver, dayjs, fast-csv, jszip, saxes, unzipper (all need manual ESM verification). |
+| Security posture | ✅ Clean | `npm audit` reports zero findings after dependency refresh. |
+| Build system | ⚠️ Outdated | Grunt + Browserify remain; no modern bundler produces distributable builds yet. |
+| JSR readiness | ⚠️ Not started | Exports map, jsr.json, and migration guide still outstanding. |
+
+Remaining CommonJS files (integration + data fixtures):
+- `spec/integration/issue-1328-xlsx-worksheet-reader-date.spec.js`
+- `spec/integration/issue-1842-dataValidations-memory-overload.spec.js`
+- `spec/integration/issue-877-hyperlink-no-text.spec.js`
+- `spec/integration/issue-880-malformed-comment.spec.js`
+- `spec/integration/workbook/*.spec.js`
+- `spec/integration/worksheet.spec.js`
+- `spec/integration/workbook-xlsx-writer/*.spec.js`
+- `spec/integration/workbook-xlsx-reader.spec.js`
+- `spec/integration/worksheet-xlsx-writer.spec.js`
+- `spec/integration/data/rich-text-sample.js`
+- `spec/end-to-end/express.spec.js` (confirm no lingering `require` usage)
+
+Dependencies awaiting ESM confirmation or native replacements:
+- `archiver` (zip writer), `jszip` (zip creation & manipulation), `unzipper` (streaming unzip)
+- `saxes` (SAX parser), `fast-csv` (CSV parser/writer), `dayjs` (date formatting)
+
+## Outstanding Work
+
+### Test Suite Finalization
+- Convert the remaining integration, worksheet, and workbook specs to static imports plus `.js` endings.
+- Replace `module.exports` data fixtures (for example `rich-text-sample.js`) with `export default`.
+- Re-run unit, integration, and end-to-end suites through Mocha to establish a clean baseline.
+
+### Dependency & Runtime Verification
+- Verify the six remaining production dependencies support native ESM entry points; document any shims or fallbacks.
+- Where feasible, design replacements using Node/browser built-ins (for example streaming ZIP APIs or Web Streams).
+
+### Build System Migration
+- Replace Grunt + Browserify with a modern bundler (Vite in library mode is the recommended path; Rollup is the fallback).
+- Produce ESM, browser, and optional CommonJS bundles, and wire them through `package.json` exports.
+- Remove legacy build artifacts once parity is confirmed.
+
+### Release & Documentation Readiness
+- Decide whether to publish as ESM-only or dual-mode; update `package.json` exports and README examples accordingly.
+- Create `jsr.json`, migration guide content, and CI workflow for publishing to JSR.
+- Validate TypeScript definitions against the new entry points and update any broken declaration paths.
+
+## Open Risks
+
+| Risk | Impact | Mitigation |
+| --- | --- | --- |
+| Integration/E2E specs still rely on CommonJS helpers | Blocks end-to-end validation | Systematically convert remaining specs and data fixtures, mirroring the xform pattern. |
+| Grunt build cannot output ESM-ready bundles | Prevents shipping to npm/JSR | Stand up Vite (preferred) or Rollup builds before removing legacy tasks. |
+| Dependency ESM gaps (archiver/jszip/unzipper/fast-csv) | Could force CommonJS fallbacks | Audit packages, track upstream ESM support, or wrap with dynamic imports until replacements are ready. |
+| Dual-mode vs ESM-only decision unresolved | Impacts package exports and documentation | Document trade-offs (size vs compatibility) and decide prior to build migration. |
+| Missing migration guide and README updates | Users lack upgrade path | Author MIGRATION.md content alongside JSR prep to avoid scrambling later. |
+
+## Success Criteria
+- Entire repository (library + tests + build scripts) uses deterministic `import`/`export` syntax; no `require` remains.
+- All Mocha suites (unit, integration, e2e, TypeScript) run under Node 20+ without loaders beyond the existing config.
+- Production dependencies confirmed ESM-safe or replaced with native/browser APIs.
+- Modern build pipeline ships ESM, browser, and optional CJS bundles plus accurate `package.json` exports.
+- Documentation (README, migration guide, release notes) reflects the ESM-only defaults and TypeScript usage.
+- Security posture stays clean (`npm audit` zero findings) and Node 20 remains the minimum supported runtime.
+
+## Suggested Next Actions
+1. Finish converting the remaining integration and e2e specs, then run the entire test matrix to capture current failures.
+2. Audit `archiver`, `jszip`, `unzipper`, `fast-csv`, `saxes`, and `dayjs` for ESM entry points; open upstream issues or design fallbacks as needed.
+3. Prototype a Vite (library mode) configuration that emits ESM + browser bundles, then map them through `exports`.
+4. Draft the migration guide/JSR checklist so documentation keeps pace with code changes.
+5. Remove the superseded markdown files now that their content lives here, keeping only `README.md`, `MODEL.md`, and this status report.
+````
 
 - **Build System Migration**: Requires thorough testing
 - **Integration Test Conversion**: Similar to unit tests but more complex

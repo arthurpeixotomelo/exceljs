@@ -6,10 +6,6 @@ Read, manipulate and write spreadsheet data and styles to XLSX and JSON.
 
 Reverse engineered from Excel spreadsheet files as a project.
 
-# Translations
-
-* [中文文档](README_zh.md)
-
 # Installation
 
 ```shell
@@ -2539,7 +2535,6 @@ For example code using ExcelJS in the browser take a look at the <a href="https:
 The following files are pre-bundled and included inside the dist folder.
 
 * exceljs.js
-* exceljs.min.js
 
 # Value Types[⬆](#contents)<!-- Link generated with jump2header -->
 

@@ -1,54 +1,59 @@
-'use strict';
+import { createServer } from 'node:http';
+import { fileURLToPath } from 'node:url';
+import { join, dirname } from 'node:path';
+import ExcelJS from '../../lib/exceljs.nodejs.js';
+import StreamBuf from '../../lib/utils/stream-buf';
+import { createReadStream, createWriteStream } from 'node:fs';
 
-/* eslint-disable no-console */
-
-const fs = require('fs');
-const express = require('express');
-const path = require('path');
-const ExcelJS = require('../../lib/exceljs.nodejs.js');
-const StreamBuf = require('../../lib/utils/stream-buf');
+const DIRNAME = dirname(fileURLToPath(import.meta.url));
 
 console.log('Copying bundle.js to public folder');
-fs.createReadStream(`${__dirname}/../../dist/exceljs.min.js`).pipe(
-  fs.createWriteStream(`${__dirname}/public/exceljs.min.js`)
+createReadStream(`${DIRNAME}/../../dist/exceljs.min.js`).pipe(
+  createWriteStream(`${DIRNAME}/public/exceljs.min.js`)
 );
-fs.createReadStream(`${__dirname}/../../dist/exceljs.js`).pipe(
-  fs.createWriteStream(`${__dirname}/public/exceljs.js`)
+createReadStream(`${DIRNAME}/../../dist/exceljs.js`).pipe(
+  createWriteStream(`${DIRNAME}/public/exceljs.js`)
 );
 
-const app = express();
+const server = createServer((req, res) => {
+  if (req.method === 'GET' && req.url === '/') {
+    const filePath = join(DIRNAME, 'public', 'index.html');
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    createReadStream(filePath).pipe(res);
+  } else if (req.method === 'POST' && req.url === '/api/upload') {
+    const wb = new ExcelJS.Workbook();
 
-app.use('/', express.static(path.join(__dirname, 'public')));
+    const stream = new StreamBuf();
+    stream.on('finish', () => {
+      const base64 = stream.read();
 
-app.post('/api/upload', (req, res) => {
-  const wb = new ExcelJS.Workbook();
+      wb.xlsx.load(base64, { base64: true }).then(() => {
+        const ws = wb.getWorksheet('blort');
 
-  const stream = new StreamBuf();
-  stream.on('finish', () => {
-    const base64 = stream.read();
+        console.log('XLSX uploaded:');
+        console.log('A1', ws.getCell('A1').value);
+        console.log('A2', ws.getCell('A2').value);
 
-    wb.xlsx.load(base64, {base64: true}).then(() => {
-      const ws = wb.getWorksheet('blort');
+        ws.getCell('A1').value = 'Hey Ho!';
+        ws.getCell('A2').value = 14;
 
-      console.log('XLSX uploaded:');
-      console.log('A1', ws.getCell('A1').value);
-      console.log('A2', ws.getCell('A2').value);
-
-      ws.getCell('A1').value = 'Hey Ho!';
-      ws.getCell('A2').value = 14;
-
-      const outStream = new StreamBuf();
-      wb.xlsx.write(outStream).then(() => {
-        const b = outStream.read();
-        const s = b.toString('base64');
-        res.write(s);
-        res.end();
+        const outStream = new StreamBuf();
+        wb.xlsx.write(outStream).then(() => {
+          const b = outStream.read();
+          const s = b.toString('base64');
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ data: s }));
+        });
       });
     });
-  });
 
-  req.pipe(stream);
+    req.pipe(stream);
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Not Found');
+  }
 });
 
-app.listen(3003);
-console.log('Listening on port 3003');
+server.listen(3003, () => {
+  console.log('Listening on port 3003');
+});

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import {fileURLToPath} from 'url';
-import {dirname} from 'path';
+import {dirname, join} from 'path';
 
 
 import testXformHelper from '../test-xform-helper.js';

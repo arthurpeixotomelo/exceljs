@@ -1,6 +1,0 @@
-{
-  "node-option": ["no-warnings"],
-  "loader": "./spec/config/setup.js",
-  "spec": "spec/**/*.spec.js",
-  "timeout": 5000
-}

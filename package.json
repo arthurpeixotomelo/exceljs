@@ -1,19 +1,15 @@
 {
-  "name": "exceljs",
-  "version": "4.4.0",
-  "description": "Excel Workbook Manager - Read and Write xlsx and csv Files.",
+  "name": "tlsx",
+  "version": "0.0.1",
+  "description": "Typescript lib Rewrite of ExcelJS",
   "private": false,
   "license": "MIT",
-  "author": {
-    "name": "Guyon Roche",
-    "email": "guyon@live.com"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/exceljs/exceljs.git"
+    "url": "https://github.com/arthurpeixotomelo/ts-sheet.git"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0"
   },
   "type": "module",
   "main": "./excel.js",
@@ -23,34 +19,21 @@
     "excel.js",
     "LICENSE",
     "README.md",
-    "README_zh.md",
     "index.ts",
     "index.d.ts"
   ],
   "scripts": {
-    "test": "npm run test:unit && npm run test:integration && npm run test:end-to-end",
-    "test:unit": "mocha spec/unit --recursive",
-    "test:integration": "mocha spec/integration --recursive",
-    "test:end-to-end": "mocha spec/end-to-end --recursive",
+    "test:unit": "vitest run --dir spec/unit",
+    "test:integration": "vitest run --dir spec/integration",
+    "test:end-to-end": "vitest run --dir spec/end-to-end",
+    "test:all": "pnpm run test:unit && pnpm run test:integration && pnpm run test:end-to-end",
     "test:manual": "node spec/manual/app.js",
-    "test:typescript": "mocha spec/typescript/**/*.spec.ts",
-    "lint": "eslint --format node_modules/eslint-friendly-formatter .",
-    "lint:fix": "prettier-eslint --write $(pwd)'/**/*.js'",
-    "lint:staged": "lint-staged",
+    "test:typescript": "vitest run --dir spec/typescript",
+    "lint": "pnpm oxlint --type-aware",
+    "lint:fix": "pnpm oxlint --fix",
+    "lint:fix-all": "pnpm oxlint --fix --fix-suggestions",
     "benchmark": "node --expose-gc benchmark",
     "benchmark:debug": "node --expose-gc --inspect-brk --trace-deopt benchmark"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier-eslint --write",
-      "eslint --format node_modules/eslint-friendly-formatter",
-      "git add"
-    ]
   },
   "keywords": [
     "xlsx",
@@ -87,27 +70,14 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",
-    "@types/mocha": "^10.0.0",
-    "@types/node": "^20.0.0",
+    "@types/node": "^24.0.0",
     "chai": "^4.2.0",
-    "chai-datetime": "^1.7.0",
     "chai-xml": "^0.4.1",
-    "dirty-chai": "^2.0.1",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-friendly-formatter": "^4.0.1",
-    "eslint-plugin-import": "^2.29.0",
-    "eslint-plugin-node": "^11.1.0",
-    "express": "^4.16.4",
-    "got": "^14.0.0",
-    "husky": "^9.0.0",
-    "lint-staged": "^15.0.0",
-    "mocha": "^10.0.0",
-    "prettier-eslint": "^16.0.0",
-    "prettier-eslint-cli": "^8.0.0",
+    "oxlint": "1.29.0",
+    "oxlint-tsgolint": "0.7.1",
     "sax": "^1.2.4",
-    "ts-node": "^10.0.0",
-    "typescript": "^5.0.0"
-  }
+    "typescript": "5.9.3",
+    "vitest": "^4.0.12"
+  },
+  "packageManager": "pnpm@10.21.0"
 }
