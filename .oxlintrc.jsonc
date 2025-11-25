@@ -16,7 +16,6 @@
   "ignore": [
     "**/node_modules/**",
     "**/dist/**",
-    "spec/manual/public/"
   ],
   "plugins": [
     "import", 

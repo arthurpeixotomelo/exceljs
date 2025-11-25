@@ -1,5 +1,5 @@
 {
-  "name": "tlsx",
+  "name": "ts-sheet",
   "version": "0.0.1",
   "description": "Typescript lib Rewrite of ExcelJS",
   "private": false,
@@ -23,17 +23,15 @@
     "index.d.ts"
   ],
   "scripts": {
-    "test:unit": "vitest run --dir spec/unit",
-    "test:integration": "vitest run --dir spec/integration",
-    "test:end-to-end": "vitest run --dir spec/end-to-end",
-    "test:all": "pnpm run test:unit && pnpm run test:integration && pnpm run test:end-to-end",
-    "test:manual": "node spec/manual/app.js",
-    "test:typescript": "vitest run --dir spec/typescript",
+    "test:unit": "vitest --dir tests/unit",
+    "test:perf": "vitest --dir tests/perf",
+    "test:bench": "node --expose-gc --inspect-brk tests/benchmark",
+    "test:integration": "vitest --dir tests/integration",
+    "test:e2e": "vitest --dir tests/e2e",
+    "test:all": "pnpm test:unit && pnpm test:integration && pnpm test:e2e",
     "lint": "pnpm oxlint --type-aware",
     "lint:fix": "pnpm oxlint --fix",
-    "lint:fix-all": "pnpm oxlint --fix --fix-suggestions",
-    "benchmark": "node --expose-gc benchmark",
-    "benchmark:debug": "node --expose-gc --inspect-brk --trace-deopt benchmark"
+    "lint:fix-all": "pnpm oxlint --fix --fix-suggestions"
   },
   "keywords": [
     "xlsx",
@@ -61,23 +59,21 @@
     "pageSetup"
   ],
   "dependencies": {
-    "archiver": "^5.0.0",
-    "dayjs": "^1.8.34",
-    "fast-csv": "^4.3.1",
-    "jszip": "^3.10.1",
-    "saxes": "^5.0.1",
-    "unzipper": "^0.10.11"
+    "archiver": "7.0.1",
+    "dayjs": "1.11.19",
+    "fast-csv": "5.0.5",
+    "jszip": "3.10.1",
+    "saxes": "6.0.0",
+    "unzipper": "0.12.3"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.12",
-    "@types/node": "^24.0.0",
-    "chai": "^4.2.0",
-    "chai-xml": "^0.4.1",
+    "@types/node": "24.10.1",
+    "fast-xml-parser": "5.3.2",
     "oxlint": "1.29.0",
-    "oxlint-tsgolint": "0.7.1",
-    "sax": "^1.2.4",
+    "oxlint-tsgolint": "0.8.0",
+    "sax": "1.4.3",
     "typescript": "5.9.3",
-    "vitest": "^4.0.12"
+    "vitest": "4.0.13"
   },
   "packageManager": "pnpm@10.21.0"
 }

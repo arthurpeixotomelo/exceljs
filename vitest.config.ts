@@ -1,10 +1,14 @@
 import { defineConfig } from 'vitest/config'
+import { resolve } from 'path'
 
 export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    setupFiles: ['spec/config/setup.js'],
-    include: ['**/*.spec.js']
-  }
+  },
+  resolve: {
+    alias: {
+      'ts-sheet': resolve(__dirname, './excel.js'),
+    },
+  },
 })

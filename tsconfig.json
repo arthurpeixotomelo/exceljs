@@ -12,7 +12,7 @@
     "isolatedModules": true,
     "skipLibCheck": true,
     "strict": true,
-    "types": ["node", "vitest"],
+    "types": ["node", "vitest", "vitest/globals"],
     "noEmit": true,
     "sourceMap": true
   },

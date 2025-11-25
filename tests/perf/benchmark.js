@@ -1,0 +1,97 @@
+import ExcelJS from '../../lib/exceljs.nodejs.js'
+
+const runs = 3;
+
+(async () => {
+  try {
+    await runProfiling('huge xlsx file streams', () => {
+      return new Promise((resolve, reject) => {
+        const workbookReader = new ExcelJS.stream.xlsx.WorkbookReader(
+          './tests/integration/data/huge.xlsx'
+        );
+        workbookReader.read();
+
+        let worksheetCount = 0;
+        let rowCount = 0;
+        workbookReader.on('worksheet', worksheet => {
+          worksheetCount += 1;
+          console.log(`Reading worksheet ${worksheetCount}`);
+          worksheet.on('row', row => {
+            rowCount += 1;
+            if (rowCount % 50000 === 0) console.log(`Reading row ${rowCount}`);
+          });
+        });
+
+        workbookReader.on('end', () => {
+          console.log(`Processed ${worksheetCount} worksheets and ${rowCount} rows`);
+          resolve();
+        });
+        workbookReader.on('error', reject);
+      });
+    });
+
+    await runProfiling('huge xlsx file async iteration', async () => {
+      const workbookReader = new ExcelJS.stream.xlsx.WorkbookReader(
+        'tests/integration/data/huge.xlsx'
+      );
+      let worksheetCount = 0;
+      let rowCount = 0;
+      for await (const worksheetReader of workbookReader) {
+        worksheetCount += 1;
+        console.log(`Reading worksheet ${worksheetCount}`);
+        for await (const row of worksheetReader) {
+          rowCount += 1;
+          if (rowCount % 50000 === 0) console.log(`Reading row ${rowCount}`);
+        }
+      }
+
+      console.log(`Processed ${worksheetCount} worksheets and ${rowCount} rows`);
+    });
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+})();
+
+async function runProfiling(name, run) {
+  console.log('####################################################');
+  console.log(
+    `WARMUP: Current memory usage: ${currentMemoryUsage({runGarbageCollector: true})} MB`
+  );
+  console.log(`WARMUP: ${name} profiling started`);
+  const warmupStartTime = Date.now();
+  await run();
+  console.log(`WARMUP: ${name} profiling finished in ${Date.now() - warmupStartTime}ms`);
+  console.log(
+    `WARMUP: Current memory usage (before GC): ${currentMemoryUsage({
+      runGarbageCollector: false,
+    })} MB`
+  );
+  console.log(
+    `WARMUP: Current memory usage (after GC): ${currentMemoryUsage({runGarbageCollector: true})} MB`
+  );
+
+  for (let i = 1; i <= runs; i += 1) {
+    console.log('');
+    console.log('####################################################');
+    console.log(`RUN ${i}: ${name} profiling started`);
+    const startTime = Date.now();
+    await run();
+    console.log(`RUN ${i}: ${name} profiling finished in ${Date.now() - startTime}ms`);
+    console.log(
+      `RUN ${i}: Current memory usage (before GC): ${currentMemoryUsage({
+        runGarbageCollector: false,
+      })} MB`
+    );
+    console.log(
+      `RUN ${i}: Current memory usage (after GC): ${currentMemoryUsage({
+        runGarbageCollector: true,
+      })} MB`
+    );
+  }
+}
+
+function currentMemoryUsage({runGarbageCollector}) {
+  if (runGarbageCollector) global.gc();
+  return Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100;
+}
