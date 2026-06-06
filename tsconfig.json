@@ -1,20 +1,18 @@
 {
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "lib": ["ES2022", "DOM"],
+    "noEmit": true,
+    "strict": true,
     "allowJs": true,
     "checkJs": false,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
+    "sourceMap": true,
     "skipLibCheck": true,
-    "strict": true,
+    "module": "nodenext",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "nodenext",
+    "allowSyntheticDefaultImports": true,
     "types": ["node", "vitest", "vitest/globals"],
-    "noEmit": true,
-    "sourceMap": true
   },
-  "exclude": ["node_modules", "dist"]
 }
